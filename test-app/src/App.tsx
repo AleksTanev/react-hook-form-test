@@ -21,7 +21,7 @@ function App() {
             message: "Passwords don't match",
         });
 
-    const { reset, handleSubmit, formState, register } = useForm({
+    const { reset, handleSubmit, formState, register, watch } = useForm({
         defaultValues: {
             email: "",
             password: "",
@@ -32,7 +32,8 @@ function App() {
         resolver: zodResolver(userSchema),
     });
 
-    console.log(formState);
+    // const email = watch("email");
+    // console.log(email);
     const { isValidating, isSubmitted, errors } = formState;
     console.log(isValidating);
     console.log(isSubmitted);
@@ -40,11 +41,16 @@ function App() {
 
     // console.log(register("email"));
 
-    // console.log(formState);
+    // console.log(register("email"));
+
+    const submitHandler = (...props: any) => {
+        console.log({ props });
+        reset();
+    };
 
     return (
         <div className="App">
-            <form onSubmit={handleSubmit(console.log, console.log)}>
+            <form onSubmit={handleSubmit(submitHandler, console.log)}>
                 <input {...register("email")} />
                 <input type={"password"} {...register("password")} />
                 <input type={"password"} {...register("passwordConfirm")} />
